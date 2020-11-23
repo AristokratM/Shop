@@ -6,8 +6,8 @@ from .models import Notebook, Smartphone
 # Create your views here.
 
 
-def test_view(requset):
-    return render(requset, 'base.html', {})
+def test_view(request):
+    return render(request, 'shop/base.html', {})
 
 
 class ProductDetailView(DetailView):
@@ -22,5 +22,5 @@ class ProductDetailView(DetailView):
         return super().dispatch(request, *args, **kwargs)
 
     context_object_name = 'product'
-    template_name = 'product_detail.html'
+    template_name = 'shop/product_detail.html'
     slug_url_kwarg = 'slug'
