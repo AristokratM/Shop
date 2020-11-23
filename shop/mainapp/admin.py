@@ -1,11 +1,38 @@
 from django.contrib import admin
 from django import forms
-from django.forms import  ModelChoiceField
+from django.forms import  ModelChoiceField, ModelForm, ValidationError
+from django.utils.safestring import mark_safe
 # Register your models here.
 from .models import *
+from PIL import Image
+
+
+class NotebookAdminForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image'].help_text = mark_safe(
+            '<span style="color:red;font-size:14px;">При загрузке изоброжения с разрешением больше {}x{} оно будет обрезано!</span>'
+            .format(*Product.MAX_RESOLUTION)
+        )
+
+    # def clean_image(self):
+    #     image = self.cleaned_data['image']
+    #     img = Image.open(image)
+    #     min_width, min_height = Product.MIN_RESOLUTION
+    #     max_width, max_height = Product.MAX_RESOLUTION
+    #     if image.size > Product.MAX_SIZE:
+    #         raise ValidationError("Размер файла больше 3МБ!")
+    #     if img.width < min_width or img.height < min_height:
+    #         raise ValidationError("Разшерение изображение меньше минимального!")
+    #     if img.width > max_width or img.height > max_height:
+    #         raise ValidationError("Разшерение изображение больше максимального!")
+    #     return image
 
 
 class NotebookAdmin(admin.ModelAdmin):
+
+    form = NotebookAdminForm
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':
@@ -26,4 +53,4 @@ admin.site.register(Notebook, NotebookAdmin)
 admin.site.register(CartProduct)
 admin.site.register(Cart)
 admin.site.register(Customer)
-admin.site.register(Smartphone,SmartphoneAdmin)
+admin.site.register(Smartphone, SmartphoneAdmin)
