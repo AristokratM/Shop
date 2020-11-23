@@ -5,8 +5,14 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.urls import reverse
 import sys
 User = get_user_model()
+
+
+def get_product_url(obj, viewname):
+    ct_model = obj.__class__._meta.model_name
+    return reverse(viewname, kwargs={"ct_model": ct_model, "slug": obj.slug})
 
 
 class MaxResolutionErrorException(Exception):
@@ -146,6 +152,9 @@ class Notebook(Product):
     def __str__(self):
         return "{} : {}".format(self.category.name, self.title)
 
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
 
 class Smartphone(Product):
 
@@ -161,3 +170,6 @@ class Smartphone(Product):
 
     def __str__(self):
         return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
