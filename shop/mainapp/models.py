@@ -165,8 +165,10 @@ class Smartphone(Product):
     resolution = models.CharField(max_length=255, verbose_name="Разшерение екрана")
     accum_value = models.CharField(max_length=255, verbose_name="Обьем батареи")
     ram = models.CharField(max_length=255, verbose_name="Оперативная память")
-    sd = models.BooleanField(default=True)
-    sd_volume_max = models.CharField(max_length=255, verbose_name="Максимальный обьем встраимавой памяти")
+    sd = models.BooleanField(default=True, verbose_name="Наличие SD карты")
+    sd_volume_max = models.CharField(
+        max_length=255, null=True, blank=True, verbose_name="Максимальный обьем встраимавой памяти"
+    )
     main_cam_mp = models.CharField(max_length=255, verbose_name="Главная камера")
     frontal_cam_mp = models.CharField(max_length=255, verbose_name="Фронтальная камера")
 

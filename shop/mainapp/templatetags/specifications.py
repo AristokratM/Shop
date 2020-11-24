@@ -1,5 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
+from ..models import Smartphone
 register = template.Library()
 
 TABLE_HEAD = """
@@ -40,44 +41,6 @@ PRODUCT_SPEC = {
 
     }
 }
-"""
-    <tr>
-      <td>Диагнональ</td>
-      <td>{{product.diagonal}}</td>
-    </tr>
-      <tr>
-      <td>Тип дисплея</td>
-      <td>{{product.display_type}}</td>
-    </tr>
-      <tr>
-      <td>Разшерение екрана</td>
-      <td>{{product.resolution}}</td>
-    </tr>
-          <tr>
-      <td>Обьем батареи</td>
-      <td>{{product.accum_value}}</td>
-    </tr>
-      <tr>
-      <td>Оперативная память</td>
-      <td>{{product.ram}}</td>
-    </tr>
-      <tr>
-      <td>Наличие слота для SD кары</td>
-      <td>{{product.sd}}</td>
-    </tr>
-      <tr>
-      <td>Максимальный обьем SD карты</td>
-      <td>{{product.sd_volume_max}}</td>
-    </tr>
-        <tr>
-      <td>Главная камера (МП)</td>
-      <td>{{product.main_cam_mp}}</td>
-    </tr>
-        <tr>
-      <td>Фронтальная камера (МП)</td>
-      <td>{{product.frontal_cam_mp}}</td>
-    </tr>
-"""
 
 
 def get_product_spec(product, model_name):
@@ -89,4 +52,9 @@ def get_product_spec(product, model_name):
 @register.filter
 def product_spec(product):
     model_name = product.__class__._meta.model_name
+    # if isinstance(product, Smartphone):
+    #     if not product.sd:
+    #         PRODUCT_SPEC['smartphone'].pop('Максимальный обьем SD карты')
+    #     else:
+    #         PRODUCT_SPEC['smartphone']['Максимальный обьем SD карты'] = 'sd_volume_max'
     return mark_safe(TABLE_HEAD + get_product_spec(product, model_name) + TABLE_TAIL)
