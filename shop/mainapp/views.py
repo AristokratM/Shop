@@ -25,3 +25,12 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
     template_name = 'shop/product_detail.html'
     slug_url_kwarg = 'slug'
+
+
+class CategoryDetailView(DetailView):
+
+    model = Category
+    queryset = Category.object.all()
+    context_object_name = 'category'
+    template_name = 'shop/category_detail.html'
+    slug_url_kwarg = 'slug'
