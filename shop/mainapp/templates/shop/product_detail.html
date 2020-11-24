@@ -15,8 +15,13 @@
         <h3>{{product.title}}</h3>
         <p>Цена: {{product.price}}</p>
         <p>Описание: {{product.description}}</p>
-        <p>Характеристики:</p>
     </div>
+    <p class="mt-4">Характеристики:</p>
+    {% if product.category.slug == 'notebooks' %}
+      {% include 'shop/notebook_specification.html' %}
+    {% else %}
+        {% include 'shop/smartphone_specification.html' %}
+    {% endif %}
 </div>
 
 {% endblock content %}
