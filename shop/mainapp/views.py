@@ -34,6 +34,9 @@ class AddToCartView(CartMixin, View):
         )
         if created:
             self.cart.products.add(cart_product)
+        else:
+            cart_product.qty += 1
+            cart_product.save()
         self.cart.save()
         messages.add_message(request, messages.INFO, "Товар успешно добавлен")
         return HttpResponseRedirect('/cart/')
