@@ -144,7 +144,7 @@ class CartProduct(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     qty = models.PositiveIntegerField(default=1)
-    final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name="Общая стоимость", default=0)
+    final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name="Общая стоимость")
 
     def __str__(self):
         return "Продукт {} для корзины".format(self.content_object.title)
