@@ -132,6 +132,9 @@ class Product(models.Model):
             self.image = InMemoryUploadedFile(filestream, 'ImageField', name, "jpeg/image", sys.getsizeof(filestream), None)
         super().save(*args, **kwargs)
 
+    def get_model_name(self):
+        return self.__class__.__name__.lower()
+
 
 class CartProduct(models.Model):
 
@@ -171,6 +174,7 @@ class Cart(models.Model):
             self.final_price = 0
         self.total_products = cart_data.get('id__count')
         super().save(*args, **kwargs)
+
 
 class Customer(models.Model):
 
