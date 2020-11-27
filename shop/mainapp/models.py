@@ -265,8 +265,9 @@ class Order(models.Model):
         default=BUYING_TYPE_SELF
     )
     comment = models.TextField(verbose_name="Коментарий к заказу", null=True, blank=True)
-    created_at = models.DateTimeField(auto_now=True, verbose_name="Дата создания заказа")
     order_date = models.DateField(verbose_name="Дата получение заказа", default=timezone.now)
+    created_at = models.DateTimeField(auto_now=True, verbose_name="Дата создания заказа")
+
 
     def __str__(self):
         return str(self.id)

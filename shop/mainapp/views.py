@@ -5,6 +5,7 @@ from .models import Notebook, Smartphone, Category, LatestProducts, CartProduct
 from django.contrib import messages
 from .mixins import CategoryDetailMixin, CartMixin
 from django.http import HttpResponseRedirect
+from .forms import OrderForm
 # Create your views here.
 
 
@@ -110,6 +111,7 @@ class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
         context['cart'] = self.cart
         return context
 
+
 class CartView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
@@ -119,3 +121,16 @@ class CartView(CartMixin, View):
             'cart': self.cart
         }
         return render(request, 'shop/cart.html', context)
+
+
+class CheckoutView(CartMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        categories = Category.object.get_categories_for_left_sidebar()
+        form = OrderForm(request.POST or None)
+        context = {
+            'categories': categories,
+            'cart': self.cart,
+            'form': form
+        }
+        return render(request, 'shop/checkout.html', context)
