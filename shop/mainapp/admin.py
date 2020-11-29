@@ -69,10 +69,14 @@ class SmartphoneAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey()
 
 
+class CartAdmin(admin.ModelAdmin):
+    filter_horizontal = ('products',)
+
+
 admin.site.register(Category)
 admin.site.register(Notebook, NotebookAdmin)
 admin.site.register(CartProduct)
-admin.site.register(Cart)
+admin.site.register(Cart, CartAdmin)
 admin.site.register(Customer)
 admin.site.register(Smartphone, SmartphoneAdmin)
 admin.site.register(Order)
